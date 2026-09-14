@@ -25,3 +25,26 @@ jobs:
 
       - name: Build, test and code quality
         run: mvn clean verify
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluebank-jar
+          path: target/*.jar
+
+  docker-image-build:
+    needs: build-test-quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: bluebank-jar
+          path: target
+
+      - name: Build Docker image
+        run: docker build -t bluebank-api .
