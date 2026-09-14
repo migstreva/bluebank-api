@@ -1,7 +1,6 @@
 package com.inatel.blue_bank.service;
 
 import com.inatel.blue_bank.model.entity.Account;
-import com.inatel.blue_bank.model.entity.Customer;
 import com.inatel.blue_bank.model.entity.Transaction;
 import com.inatel.blue_bank.repository.TransactionRepository;
 import com.inatel.blue_bank.validator.TransactionValidator;

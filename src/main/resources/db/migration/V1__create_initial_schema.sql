@@ -1,0 +1,32 @@
+CREATE TABLE customers(
+      id UUID NOT NULL PRIMARY KEY,
+      full_name VARCHAR(100) NOT NULL,
+      date_of_birth DATE NOT NULL,
+      doc_number VARCHAR(50) NOT NULL,
+      doc_type VARCHAR(30) NOT NULL,
+      nationality VARCHAR(30) NOT NULL,
+      phone VARCHAR(20) NOT NULL,
+      email VARCHAR(100) NOT NULL,
+      occupation VARCHAR(100) NOT NULL,
+      created_at TIMESTAMP NOT NULL,
+      updated_at TIMESTAMP NOT NULL,
+      CONSTRAINT doc_type_chk CHECK (doc_type in ('PASSPORT', 'CPF', 'CNPJ'))
+);
+
+CREATE TABLE accounts(
+     id UUID NOT NULL PRIMARY KEY,
+     account_number VARCHAR(15) NOT NULL,
+     balance NUMERIC(18,2) NOT NULL,
+     branch_code INT NOT NULL,
+     created_at TIMESTAMP NOT NULL,
+     updated_at TIMESTAMP NOT NULL,
+     customer_id UUID NOT NULL REFERENCES customers(id)
+);
+
+CREATE TABLE transactions(
+     id UUID NOT NULL PRIMARY KEY,
+     amount NUMERIC(18,2) NOT NULL,
+     payer_id UUID NOT NULL REFERENCES accounts(id),
+     payee_id UUID NOT NULL REFERENCES accounts(id),
+     created_at TIMESTAMP NOT NULL
+);
