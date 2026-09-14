@@ -32,7 +32,7 @@ jobs:
           name: bluebank-jar
           path: target/*.jar
 
-  docker-image-build:
+  docker-image-build-push:
     needs: build-test-quality
     runs-on: ubuntu-latest
 
@@ -48,3 +48,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t bluebank-api .
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u migstreva --password-stdin
+
+      - name: Tag Docker image
+        run: docker tag bluebank-api ghcr.io/migstreva/bluebank-api:latest
+
+      - name: Push Docker image
+        run: docker push ghcr.io/migstreva/bluebank-api:latest
